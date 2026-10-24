@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Autor from "../models/Autor.js";
 
-// POST /api/autores  → crear un autor
 export async function crearAutor(req, res) {
   try {
     const autor = await Autor.create(req.body);
@@ -11,7 +10,6 @@ export async function crearAutor(req, res) {
   }
 }
 
-// GET /api/autores  → listar todos los autores
 export async function listarAutores(req, res) {
   try {
     const autores = await Autor.find().sort({ nombre: 1 });
@@ -21,7 +19,6 @@ export async function listarAutores(req, res) {
   }
 }
 
-// GET /api/autores/:id  → consultar un autor por su id
 export async function obtenerAutor(req, res) {
   try {
     const { id } = req.params;

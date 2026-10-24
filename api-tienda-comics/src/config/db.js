@@ -6,6 +6,6 @@ export async function conectarDB() {
     console.log("Conectado a MongoDB Atlas");
   } catch (error) {
     console.error("Error al conectar con MongoDB:", error.message);
-    process.exit(1); // Termina la app si no hay base de datos
+    process.exit(1);
   }
 }

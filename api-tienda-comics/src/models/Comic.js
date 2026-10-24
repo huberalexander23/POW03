@@ -5,7 +5,7 @@ const comicSchema = new mongoose.Schema(
     titulo: { type: String, required: [true, "El título es obligatorio"], trim: true, unique: true },
     autor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Autor", // referencia a la colección de autores
+      ref: "Autor",
       required: [true, "El autor es obligatorio"]
     },
     editorial: { type: String, trim: true },
