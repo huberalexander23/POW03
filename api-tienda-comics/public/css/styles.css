@@ -1,11 +1,40 @@
 :root {
-  --color-primario: #d62828;
-  --color-fondo: #f4f1ea;
+  --color-primario: #1d4ed8;
+  --color-acento: #1d4ed8;
+  --color-encabezado: #1d4ed8;
+  --color-fondo: #eef2f9;
   --color-tarjeta: #ffffff;
-  --color-texto: #1d1d1f;
-  --color-suave: #6c6a63;
-  --color-borde: #d9d4c7;
+  --color-texto: #14213d;
+  --color-suave: #5b6784;
+  --color-borde: #cfd8ea;
+  --color-secundario: #5b6784;
+  --ok-fondo: #e3f5e8;
+  --ok-texto: #1b6e34;
+  --ok-borde: #2a9d4b;
+  --error-fondo: #fde8ea;
+  --error-texto: #8f0f19;
+  --error-borde: #c1121f;
   --radio: 10px;
+  color-scheme: light;
+}
+
+:root[data-tema="oscuro"] {
+  --color-primario: #2563eb;
+  --color-acento: #7db3ff;
+  --color-encabezado: #172554;
+  --color-fondo: #0b1220;
+  --color-tarjeta: #131c30;
+  --color-texto: #e6ecf8;
+  --color-suave: #9aa8c7;
+  --color-borde: #263554;
+  --color-secundario: #3a4a6e;
+  --ok-fondo: #12301d;
+  --ok-texto: #7ee0a0;
+  --ok-borde: #2a9d4b;
+  --error-fondo: #3a1419;
+  --error-texto: #ffb3ba;
+  --error-borde: #c1121f;
+  color-scheme: dark;
 }
 
 * {
@@ -21,7 +50,8 @@ body {
 }
 
 .encabezado {
-  background: var(--color-primario);
+  position: relative;
+  background: var(--color-encabezado);
   color: #fff;
   text-align: center;
   padding: 1.5rem 1rem;
@@ -34,6 +64,28 @@ body {
 .encabezado p {
   margin: 0.25rem 0 0;
   opacity: 0.9;
+}
+
+.btn-tema {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.btn-tema:hover {
+  background: rgba(255, 255, 255, 0.15);
+  filter: none;
+}
+
+@media (max-width: 560px) {
+  .btn-tema {
+    position: static;
+    margin-top: 0.75rem;
+  }
 }
 
 .contenedor {
@@ -75,8 +127,18 @@ select {
   padding: 0.55rem 0.65rem;
   border: 1px solid var(--color-borde);
   border-radius: 6px;
+  background: var(--color-tarjeta);
+  color: var(--color-texto);
   font: inherit;
   font-weight: 400;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
 }
 
 button {
@@ -95,7 +157,7 @@ button:hover {
 }
 
 button.secundario {
-  background: var(--color-suave);
+  background: var(--color-secundario);
 }
 
 .formulario {
@@ -133,6 +195,16 @@ button.secundario {
   font-size: 1.05rem;
 }
 
+.comic h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.comic h3 a:hover {
+  color: var(--color-acento);
+  text-decoration: underline;
+}
+
 .comic p {
   margin: 0.15rem 0;
   font-size: 0.9rem;
@@ -140,7 +212,7 @@ button.secundario {
 
 .comic .precio {
   font-weight: 700;
-  color: var(--color-primario);
+  color: var(--color-acento);
 }
 
 .vacio {
@@ -161,31 +233,21 @@ button.secundario {
 }
 
 .mensaje.ok {
-  background: #e3f5e8;
-  color: #1b6e34;
-  border: 1px solid #2a9d4b;
+  background: var(--ok-fondo);
+  color: var(--ok-texto);
+  border: 1px solid var(--ok-borde);
 }
 
 .mensaje.error {
-  background: #fde8ea;
-  color: #8f0f19;
-  border: 1px solid #c1121f;
-}
-
-.comic h3 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.comic h3 a:hover {
-  color: var(--color-primario);
-  text-decoration: underline;
+  background: var(--error-fondo);
+  color: var(--error-texto);
+  border: 1px solid var(--error-borde);
 }
 
 .volver {
   display: inline-block;
   margin-bottom: 1rem;
-  color: var(--color-primario);
+  color: var(--color-acento);
   font-weight: 600;
   text-decoration: none;
 }
@@ -212,5 +274,5 @@ button.secundario {
 
 .detalle .precio {
   font-weight: 700;
-  color: var(--color-primario);
+  color: var(--color-acento);
 }
