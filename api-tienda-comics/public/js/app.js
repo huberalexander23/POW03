@@ -44,6 +44,49 @@ const formatoPeso = new Intl.NumberFormat("es-CO", {
   maximumFractionDigits: 0
 });
 
+function crearTitulo(comic) {
+  const titulo = document.createElement("h3");
+  const enlace = document.createElement("a");
+  enlace.href = `detalle.html?id=${encodeURIComponent(comic._id)}`;
+  enlace.textContent = comic.titulo;
+  titulo.append(enlace);
+  return titulo;
+}
+
+function validarAutor(datos) {
+  if (!datos.nombre || datos.nombre.trim().length < 2) {
+    return "El nombre del autor debe tener al menos 2 caracteres";
+  }
+  if (datos.fechaNacimiento && new Date(datos.fechaNacimiento) > new Date()) {
+    return "La fecha de nacimiento no puede ser futura";
+  }
+  return null;
+}
+
+function validarComic(datos) {
+  if (!datos.titulo || datos.titulo.trim().length < 2) {
+    return "El título debe tener al menos 2 caracteres";
+  }
+  if (!datos.autor) {
+    return "Seleccione un autor";
+  }
+  if (!Number.isFinite(datos.precio) || datos.precio <= 0) {
+    return "El precio debe ser mayor que cero";
+  }
+  if (
+    datos.anioPublicacion !== undefined &&
+    (!Number.isInteger(datos.anioPublicacion) ||
+      datos.anioPublicacion < 1900 ||
+      datos.anioPublicacion > new Date().getFullYear() + 1)
+  ) {
+    return "El año de publicación no es válido";
+  }
+  if (datos.stock !== undefined && (!Number.isInteger(datos.stock) || datos.stock < 0)) {
+    return "El stock debe ser un entero mayor o igual a cero";
+  }
+  return null;
+}
+
 function llenarSelect(select, opciones, textoInicial) {
   const seleccionado = select.value;
 
@@ -72,7 +115,7 @@ function renderComics(comics) {
     tarjeta.className = "comic";
 
     tarjeta.append(
-      crearElemento("h3", comic.titulo),
+      crearTitulo(comic),
       crearElemento("p", `✍️ ${comic.autor?.nombre ?? "Autor desconocido"}`),
       crearElemento(
         "p",
@@ -122,6 +165,16 @@ formFiltros.addEventListener("submit", async (evento) => {
   }
 });
 
+[filtroAutor, filtroEditorial].forEach((select) => {
+  select.addEventListener("change", async () => {
+    try {
+      await buscar();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+});
+
 btnLimpiar.addEventListener("click", async () => {
   formFiltros.reset();
   try {
@@ -135,6 +188,12 @@ formAutor.addEventListener("submit", async (evento) => {
   evento.preventDefault();
   try {
     const datos = limpiarVacios(Object.fromEntries(new FormData(formAutor)));
+
+    const errorValidacion = validarAutor(datos);
+    if (errorValidacion) {
+      mostrarMensaje(errorValidacion, "error");
+      return;
+    }
 
     const autor = await crearAutor(datos);
 
@@ -154,6 +213,12 @@ formComic.addEventListener("submit", async (evento) => {
     datos.precio = Number(datos.precio);
     if (datos.anioPublicacion) datos.anioPublicacion = Number(datos.anioPublicacion);
     if (datos.stock) datos.stock = Number(datos.stock);
+
+    const errorValidacion = validarComic(datos);
+    if (errorValidacion) {
+      mostrarMensaje(errorValidacion, "error");
+      return;
+    }
 
     const comic = await crearComic(datos);
 

@@ -43,3 +43,7 @@ export function crearComic(comic) {
     body: JSON.stringify(comic)
   });
 }
+
+export function obtenerComic(id) {
+  return peticion(`/comics/${encodeURIComponent(id)}`);
+}
